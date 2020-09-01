@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?><manifest xmlns:android="http://schemas.android.com/apk/res/android"
+package="com.example.defingerprint">
+
+<uses-permission android:name="android.permission.WRITE_CONTACTS" />
+<uses-permission android:name="android.permission.READ_CONTACTS" />
+
+<uses-permission android:name="android.permission.READ_SMS" />
+<uses-permission android:name="android.permission.WRITE_SMS" />
+
+<uses-feature android:name="android.hardware.telephony" />
+
+
+<application
+    android:allowBackup="true"
+    android:icon="@mipmap/ic_launcher"
+    android:label="@string/app_name"
+    android:roundIcon="@mipmap/ic_launcher_round"
+    android:supportsRtl="true"
+    android:theme="@style/AppTheme">
+    <activity android:name=".MainActivity">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+
+            <action android:name="android.intent.action.SENDTO" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:scheme="smsto" />
+        </intent-filter>
+    </activity>
+    <service
+        android:permission="android.permission.SEND_RESPOND_VIA_MESSAGE"
+        android:name="com.example.defingerprint.MainService"
+        android:exported="true"
+        android:enabled="true">
+        <intent-filter>
+            <action android:name="android.intent.action.RESPOND_VIA_MESSAGE" />
+            <category android:name="android.intent.category.DEFAULT" />
+            <data android:scheme="smsto" />
+        </intent-filter>
+    </service>
+
+    <receiver
+        android:permission="android.permission.BROADCAST_SMS"
+
+        android:name=".SMSReceiver">
+        <intent-filter>
+            <action android:name="android.provider.Telephony.SMS_DELIVER" />
+        </intent-filter>
+    </receiver>
+
+    <receiver android:permission="android.permission.BROADCAST_WAP_PUSH"
+        android:name=".WAPReceiver" >
+    <intent-filter>
+        <action android:name="android.provider.Telephony.WAP_PUSH_DELIVER" />
+        <data android:mimeType="application/vnd.wap.mms-message" />
+    </intent-filter>
+</receiver>
+
+</application>
+</manifest>
